@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador de Oradores</title>
+    <link rel="icon" href="/media/icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <img src="media/codoacodo-sm.png" alt="">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item navbar-user">
+                        <a class="nav-link" href="login.html" id="log_off">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <h1 class="header__title">Administrador de Oradores</h1>
+    </header>
+
+    <div class="nuevoOrador">
+        <div class="container mt-4">
+            <fieldset>
+                <legend class="h4" id="title">Agregar nuevo orador</legend>
+                <form>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Ingrese el correo electrónico">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tema" class="form-label">Tema</label>
+                        <input type="text" class="form-control" id="tema" placeholder="Ingrese el tema">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnCrear">Agregar</button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+
+    <button class="btn btn-success" id="btnToggleUsers">
+        Mostrar Oradores
+    </button>
+    <div class="oradores">
+        <div class="oradores_lista" id="orador_conteiner">
+            <div class="row">
+                <div class="col-12 mt-1" id="msj">
+                </div>
+                <div class="users">
+                    <div class="col-12">
+                        <div id="users">
+                            <legend class="h4" id="title">Lista de oradores</legend>
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Apellido</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Tema</th>
+                                        <th scope="col">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersRows">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Orador</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="updateForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombreActualizar" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreActualizar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidoActualizar" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellidoActualizar" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mailActualizar" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="mailActualizar" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="temaActualizar" class="form-label">Tema</label>
+                            <input type="text" class="form-control" id="temaActualizar" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModal">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="actualizarOrador()">
+                            Actualizar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAlert" tabindex="-1" aria-labelledby="modalAlertLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAlertLabel">Alerta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalAlertBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfirmLabel">Confirmación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalConfirmBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmarModal">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalSuccess" tabindex="-1" aria-labelledby="modalSuccessLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSuccessLabel">Éxito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalSuccessBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEliminarLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalEliminarBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmarEliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5">
+        <p class="text-center">© 2023 Codo a Codo</p>
+    </footer>
+
+    <script>
+        let usersVisible = false; 
+
+        function toggleUsers() {
+            usersVisible = !usersVisible;
+
+            const oradoresLista = document.getElementById('orador_conteiner'); 
+
+            if (usersVisible) {
+                oradoresLista.style.display = 'block'; 
+                listarOradores();
+                document.getElementById('btnToggleUsers').innerText = 'Ocultar Oradores';
+            } else {
+                oradoresLista.style.display = 'none';
+                document.getElementById('btnToggleUsers').innerText = 'Mostrar Oradores';
+            }
+        }
+
+        document.getElementById('btnToggleUsers').addEventListener('click', toggleUsers);
+
+    </script>
+
+    <script>
+        crearOperador = () => {
+            const nombre = document.getElementById("nombre").value;
+            const apellido = document.getElementById("apellido").value;
+            const email = document.getElementById("email").value;
+            const tema = document.getElementById("tema").value;
+
+            if (!nombre || !apellido || !email || !tema) {
+                const modalAlert = new bootstrap.Modal(document.getElementById('modalAlert'));
+                document.getElementById('modalAlertBody').innerText = "Por favor, complete todos los campos.";
+                modalAlert.show();
+                return;
+            }
+
+            const modalConfirm = new bootstrap.Modal(document.getElementById('modalConfirm'));
+            document.getElementById('modalConfirmBody').innerText = `Desea agregar el Orador ${nombre} ${apellido}?`;
+            modalConfirm.show();
+
+            document.getElementById('confirmarModal').addEventListener('click', () => {
+                const orador = {
+                    nombre: nombre,
+                    apellido: apellido,
+                    email: email,
+                    tema: tema
+                };
+
+                fetch(`http://localhost:8080/web-app-23544/api/orador`, {
+                    method: "POST",
+                    body: JSON.stringify(orador),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        const modalSuccess = new bootstrap.Modal(document.getElementById('modalSuccess'));
+                        document.getElementById('modalSuccessBody').innerText = `Se agregó el orador ${nombre} ${apellido}.`;
+                        modalSuccess.show();
+                        document.getElementById("nombre").value = "";
+                        document.getElementById("apellido").value = "";
+                        document.getElementById("email").value = "";
+                        document.getElementById("tema").value = "";
+                        modalConfirm.hide();
+                    })
+                    .catch(err => console.log(err));
+            });
+        }
+
+
+        document.getElementById("btnCrear").addEventListener('click', crearOperador);
+    </script>
+
+    <script>
+        function listarOradores() {
+            const respuesta = fetch(`http://localhost:8080/web-app-23544/api/orador`);
+
+            respuesta
+                .then(response => response.json())
+                .then(data => procesarListado(data))
+                .catch(error => dibujarError(error))
+        }
+        function procesarListado(data) {
+
+            saveOradoresInFromLocal('oradores', data);
+
+            const listarOradores = data;
+            let rows = '';
+            for (let orador of listarOradores) {
+                console.log(orador);
+                rows += `
+                <tr>
+                    <th scope="row">${orador.id}</th>
+                    <td>${orador.nombre}</td>
+                    <td>${orador.apellido}</td>
+                    <td>${orador.mail}</td>
+                    <td>${orador.tema}</td>
+                    <td class="d-flex justify-content-between">
+    <button class="btn btn-success me-2" data-toggle="tooltip" data-placement="top" title="Editar" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editar(${orador.id})">
+        <i class="fa fa-edit"></i>
+    </button>
+
+    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="eliminarOrador(${orador.id}, '${orador.nombre}', '${orador.apellido}')">
+    <i class="fa fa-trash"></i>
+</button>
+
+</td>
+
+                </tr>
+                `
+            }
+            document.getElementById('usersRows').innerHTML = rows;
+        }
+
+        function dibujarError(error) {
+            console.log(error);
+            const alerta = `<div class="alert alert-danger" role="alert">
+                ${error.toString()}
+            </div>`;
+            document.getElementById('msj').innerHTML = alerta;
+        }
+
+        document.getElementById('btnGetUsers').addEventListener('click', listarOradores);
+        listarOradores();
+
+    </script>
+
+    <script>
+        const getOradoresFromLocal = () => {
+            const oradores = localStorage.getItem('oradores')
+            if (oradores) {
+                return JSON.parse(oradores);
+            }
+            return [];
+        }
+        const getOradorSeleccionado = () => {
+            const obj = localStorage.getItem('oradorBuscado')
+            if (obj) {
+                return JSON.parse(obj);
+            }
+            return null;
+        }
+        const removeOradorSeleccionado = () => {
+            localStorage.removeItem('oradorBuscado');
+        }
+
+        const saveOradoresInFromLocal = (key, data) => {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        const editar = (id) => {
+            const oradores = getOradoresFromLocal();
+            const oradorBuscado = oradores.find(o => o.id === id);
+
+            document.getElementById('nombreActualizar').value = oradorBuscado.nombre;
+            document.getElementById('apellidoActualizar').value = oradorBuscado.apellido;
+            document.getElementById('mailActualizar').value = oradorBuscado.mail;
+            document.getElementById('temaActualizar').value = oradorBuscado.tema;
+
+            saveOradoresInFromLocal('oradorBuscado', oradorBuscado);
+        }
+
+        const actualizarOrador = () => {
+            const oradorSeleccionado = getOradorSeleccionado();
+            if (!oradorSeleccionado) {
+                return
+            }
+
+            const nombre = document.getElementById('nombreActualizar').value;
+            const apellido = document.getElementById('apellidoActualizar').value;
+            const email = document.getElementById('mailActualizar').value;
+            const tema = document.getElementById('temaActualizar').value;
+
+            const orador = {
+                nombre,
+                apellido,
+                email,
+                tema,
+            };
+
+
+            fetch(`http://localhost:8080/web-app-23544/api/orador?id=${oradorSeleccionado.id}`, {
+                method: "PUT",
+                body: JSON.stringify(orador),
+            })
+                .then(response => response) 
+                .then(json => {
+                    const modalSuccess = new bootstrap.Modal(document.getElementById('modalSuccess'));
+                    document.getElementById('modalSuccessBody').innerText = `Se ha modificado el orador ID ${oradorSeleccionado.id}.`;
+                    modalSuccess.show();               
+                    listarOradores();
+                    removeOradorSeleccionado();
+                    cerrarModal();
+                })
+                .catch(err => console.log(err));
+        }
+        const cerrarModal = () => {
+            document.getElementById('btnCerrarModal').click();
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        eliminarOrador = (id, nombre, apellido) => {
+            const modalEliminar = new bootstrap.Modal(document.getElementById('modalEliminar'));
+            document.getElementById('modalEliminarBody').innerText = `¿Desea eliminar el orador ${nombre} ${apellido}?`;
+
+            modalEliminar.show();
+
+            document.getElementById('confirmarEliminar').addEventListener('click', function eliminarHandler() {
+                document.getElementById('confirmarEliminar').removeEventListener('click', eliminarHandler);
+
+                fetch(`http://localhost:8080/web-app-23544/api/orador?id=${id}`, {
+                    method: "DELETE",
+                })
+                    .then(response => response)
+                    .then(json => {
+                        const modalSuccess = new bootstrap.Modal(document.getElementById('modalSuccess'));
+                        document.getElementById('modalSuccessBody').innerText = `Se ha eliminado el orador ${nombre} ${apellido}.`;
+                        modalSuccess.show();
+                        listarOradores();
+                        modalEliminar.hide();
+                    })
+                    .catch(err => console.log(err));
+            });
+        }
+    </script>
+
+</body>
+
+</html>
